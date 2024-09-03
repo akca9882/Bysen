@@ -1,18 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class Rendering extends JPanel {
+    Logic logic = new Logic();
     public Rendering(){
         setPreferredSize(new Dimension(721, 687));
         setBackground(Color.white);
         setForeground(Color.lightGray);
         setFont(new Font("SansSerif", Font.PLAIN, 18));
         setFocusable(true);
-        new Logic();
+        addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                logic.handleMouseClick(e);
+                repaint();
+            }
+        });
     }
     /**
      * Ritar spelaren

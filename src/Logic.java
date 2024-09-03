@@ -31,43 +31,36 @@ public class Logic extends JPanel {
     public static List<String> messages; //lista med varningar att visa
     Set<Creatures>[] creatures; //Ett set med varelser
 
-    public Logic(){
-        addMouseListener(new MouseAdapter() {
+    public void handleMouseClick(MouseEvent e){
+        if (gameOver) {
+            startNewGame();
 
-            @Override
-            public void mousePressed(MouseEvent e) {
+        } else {
+            int selectedRoom = -1;
+            int ex = e.getX();
+            int ey = e.getY();
 
-                if (gameOver) {
-                    startNewGame();
-
-                } else {
-                    int selectedRoom = -1;
-                    int ex = e.getX();
-                    int ey = e.getY();
-
-                    for (int link : links[currRoom]) {
-                        int cx = rooms[link][0];
-                        int cy = rooms[link][1];
-                        if (insideRoom(ex, ey, cx, cy)) {
-                            selectedRoom = link;
-                            break;
-                        }
-                    }
-
-                    if (selectedRoom == -1)
-                        return;
-
-                    if (isLeftMouseButton(e)) {
-                        currRoom = selectedRoom;
-                        situation();
-
-                    } else if (isRightMouseButton(e)) {
-                        throwNet(selectedRoom);
-                    }
+            for (int link : links[currRoom]) {
+                int cx = rooms[link][0];
+                int cy = rooms[link][1];
+                if (insideRoom(ex, ey, cx, cy)) {
+                    selectedRoom = link;
+                    break;
                 }
-                repaint();
             }
-        });
+
+            if (selectedRoom == -1)
+                return;
+
+            if (isLeftMouseButton(e)) {
+                currRoom = selectedRoom;
+                situation();
+
+            } else if (isRightMouseButton(e)) {
+                throwNet(selectedRoom);
+            }
+        }
+
     }
 
     /***
@@ -86,7 +79,7 @@ public class Logic extends JPanel {
      * Förbereder spelstart
      * samt skapar varelser och placerar dem i rum
      */
-    void startNewGame() {
+    public void startNewGame() {
         numArrows = 3;
         currRoom = rand.nextInt(rooms.length);
         messages = new ArrayList<>();
