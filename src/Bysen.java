@@ -8,11 +8,14 @@ import static java.util.stream.Collectors.*;
 import static javax.swing.SwingUtilities.*;
 
 public class Bysen extends JPanel {
+
+    //Dem varelser som kan finnas i rummen
     enum Creatures {
         Bysen("Du hör ett mummel"),
         Troll("Du ser en trollring"),
         Vittra("Du känner ett kallt isande drag");
 
+        //Varning som visas när varelsen är i närheten
     	Creatures(String warning) {
             this.warning = warning;
         }
@@ -26,9 +29,13 @@ public class Bysen extends JPanel {
 
     boolean gameOver = true;
     int currRoom, numArrows, creatureRoom;
-    List<String> messages;
-    Set<Creatures>[] creatures;
+    List<String> messages; //lista med varningar att visa
+    Set<Creatures>[] creatures; //Ett set med varelser
 
+    /***
+     * Förbereder fönstret
+     * lägger till mouseListener som tar hand om klick
+     */
     public Bysen() {
         setPreferredSize(new Dimension(721, 687));
         setBackground(Color.white);
@@ -72,6 +79,14 @@ public class Bysen extends JPanel {
                 repaint();
             }
 
+            /***
+             * Testar om musen är över ett rum
+             * @param ex Klick event position x
+             * @param ey Klick event position y
+             * @param cx rum position x
+             * @param cy rum position y
+             * @return om musen är över rummet
+             */
             boolean insideRoom(int ex, int ey, int cx, int cy) {
                 return ((ex > cx && ex < cx + roomSize)
                         && (ey > cy && ey < cy + roomSize));
@@ -79,6 +94,10 @@ public class Bysen extends JPanel {
         });
     }
 
+    /***
+     * Förbereder spelstart
+     * samt skapar varelser och placerar dem i rum
+     */
     void startNewGame() {
         numArrows = 3;
         currRoom = rand.nextInt(rooms.length);
@@ -107,6 +126,12 @@ public class Bysen extends JPanel {
     }
 
     // placera inte varelser nära startrummet
+
+    /***
+     * testar om ett rum är för nära varelse att skapas i
+     * @param room rum som ska testas
+     * @return om rummet är för nära
+     */
     boolean tooClose(int room) {
         if (currRoom == room)
             return true;
@@ -116,6 +141,10 @@ public class Bysen extends JPanel {
         return false;
     }
 
+    /***
+     * interagerar med varelsen i rummet
+     * och ser in i anslutna rum
+     */
     void situation() {
         Set<Creatures> set = creatures[currRoom];
 
@@ -156,6 +185,10 @@ public class Bysen extends JPanel {
         }
     }
 
+    /***
+     * hanterar interagering med ett anslutet rum
+     * @param room rummet som ska interageras med
+     */
     void throwNet(int room) {
         if (creatures[room].contains(Creatures.Bysen)) {
             messages.add("Du vinner! Du har fångat Bysen!");
@@ -183,6 +216,10 @@ public class Bysen extends JPanel {
         }
     }
 
+    /**
+     * Ritar spelaren
+     * @param g Graphics2D objektet att rita med
+     */
     void drawPlayer(Graphics2D g) {
         int x = rooms[currRoom][0] + (roomSize - playerSize) / 2;
         int y = rooms[currRoom][1] + (roomSize - playerSize) - 2;
@@ -200,6 +237,10 @@ public class Bysen extends JPanel {
         g.draw(player);
     }
 
+    /***
+     * ritar startskärmermen
+     * @param g Graphics2D objektet att rita med
+     */
     void drawStartScreen(Graphics2D g) {
         g.setColor(new Color(0xDDFFFFFF, true));
         g.fillRect(0, 0, getWidth(), getHeight() - 60);
