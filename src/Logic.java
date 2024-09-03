@@ -21,7 +21,8 @@ public class Logic extends JPanel {
     }
     String playerName;
 
-
+    final String[] sounds = {" hör ett mummel liknande ljud", " hör en gren knäckas"," hör en varg yla", " märker att det blir mörkare",
+                            " hör ett ondskefullt skratt", " hör vätten skratta", " känner ett kallt drag"};
 
     static final Random rand = new Random();
 
@@ -180,7 +181,7 @@ public class Logic extends JPanel {
             // se sig om
             for (int link : links[currRoom]) {
                 for (Creatures creature : creatures[link]) {
-                    messages.add(creature.warning);
+                    messages.add(playerName + creature.warning);
                     if(creature == Creatures.Vette){
                         if(isIrritated) {
                             messages.clear();
@@ -191,6 +192,9 @@ public class Logic extends JPanel {
                     }
                 }
             }
+        }
+        if(messages.isEmpty()){
+            messages.add(playerName + sounds[rand.nextInt(sounds.length)]);
         }
     }
 
