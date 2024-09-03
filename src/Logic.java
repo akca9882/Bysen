@@ -21,8 +21,9 @@ public class Logic extends JPanel {
     }
     String playerName;
 
-    final String[] sounds = {" hör ett mummel liknande ljud", " hör en gren knäckas"," hör en varg yla", " märker att det blir mörkare",
-                            " hör ett ondskefullt skratt", " hör vätten skratta", " känner ett kallt drag"};
+    final String[] sounds = {" hör ett mummel liknande ljud", " hör en gren knäckas"," hör en varg yla",
+                            " märker att det blir mörkare", " hör ett ondskefullt skratt", " hör vätten skratta",
+                            " känner ett kallt drag"};
 
     static final Random rand = new Random();
 
@@ -91,7 +92,8 @@ public class Logic extends JPanel {
      * samt skapar varelser och placerar dem i rum
      */
     public void startNewGame() {
-        playerName = JOptionPane.showInputDialog(this, "Ange ditt namn:", "Välkommen till Fånga Bysen!", JOptionPane.PLAIN_MESSAGE);
+        playerName = JOptionPane.showInputDialog(this, "Ange ditt namn:",
+                                            "Välkommen till Fånga Bysen!", JOptionPane.PLAIN_MESSAGE);
 
         if (playerName == null || playerName.trim().isEmpty()) {
             playerName = "Spelaren"; // Ange ett standardnamn om användaren inte matar in något
