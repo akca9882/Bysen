@@ -8,10 +8,10 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 public class Logic extends JPanel {
     //Dem varelser som kan finnas i rummen
     enum Creatures {
-        Bysen("Du hör ett mummel"),
-        Troll("Du ser en trollring"),
-        Vittra("Du känner ett kallt isande drag"),
-        Vette("Du hör ett irriterat mummel");
+        Bysen(" hör ett mummel"),
+        Troll(" ser en trollring"),
+        Vittra(" känner ett kallt isande drag"),
+        Vette(" hör ett irriterat mummel");
 
         //Varning som visas när varelsen är i närheten
         Creatures(String warning) {
@@ -19,6 +19,9 @@ public class Logic extends JPanel {
         }
         final String warning;
     }
+    String playerName;
+
+
 
     static final Random rand = new Random();
 
@@ -51,9 +54,14 @@ public class Logic extends JPanel {
                 }
             }
 
-            if (selectedRoom == -1)
+            if (selectedRoom == -1) {
+                if (isRightMouseButton(e)) {
+                    messages.add(playerName + " kan inte skjuta hit");
+                    return;
+                }
+                messages.add(playerName + " kan inte gå hit");
                 return;
-
+            }
             if (isLeftMouseButton(e)) {
                 currRoom = selectedRoom;
                 situation();
@@ -82,6 +90,11 @@ public class Logic extends JPanel {
      * samt skapar varelser och placerar dem i rum
      */
     public void startNewGame() {
+        playerName = JOptionPane.showInputDialog(this, "Ange ditt namn:", "Välkommen till Fånga Bysen!", JOptionPane.PLAIN_MESSAGE);
+
+        if (playerName == null || playerName.trim().isEmpty()) {
+            playerName = "Spelaren"; // Ange ett standardnamn om användaren inte matar in något
+        }
         numArrows = 3;
         currRoom = rand.nextInt(rooms.length);
         messages = new ArrayList<>();
@@ -132,15 +145,15 @@ public class Logic extends JPanel {
         Set<Creatures> set = creatures[currRoom];
 
         if (set.contains(Creatures.Bysen)) {
-            messages.add("Bysen lockar dig att gå vilse");
+            messages.add("Bysen lockar " + playerName + " att gå vilse");
             gameOver = true;
 
         } else if (set.contains(Creatures.Troll)) {
-            messages.add("Du faller ner i trollringen");
+            messages.add(playerName + " faller ner i trollringen");
             gameOver = true;
 
         } else if (set.contains(Creatures.Vittra)) {
-            messages.add("Vittran kör iväg dig till ett slumpat rum");
+            messages.add("Vittran kör iväg " + playerName + " till ett slumpat rum");
 
             // förflytta, men undvik 2 förflyttningar i rad
             do {
@@ -159,7 +172,7 @@ public class Logic extends JPanel {
             situation();
 
         } else if (set.contains(Creatures.Vette)) {
-            messages.add("Vätten sände en sjukdom på dig");
+            messages.add("Vätten sände en sjukdom på " + playerName);
             gameOver = true;
 
         } else {
@@ -171,7 +184,7 @@ public class Logic extends JPanel {
                     if(creature == Creatures.Vette){
                         if(isIrritated) {
                             messages.clear();
-                            messages.add("Vätten sände en sjukdom på dig");
+                            messages.add("Vätten sände en sjukdom på " + playerName);
                             gameOver = true;
                         }
                         else isIrritated=true;
@@ -187,13 +200,13 @@ public class Logic extends JPanel {
      */
     void throwNet(int room) {
         if (creatures[room].contains(Creatures.Bysen)) {
-            messages.add("Du vinner! Du har fångat Bysen!");
+            messages.add(playerName + " vinner! " + playerName + " har fångat Bysen!");
             gameOver = true;
 
         } else {
             numArrows--;
             if (numArrows == 0) {
-                messages.add("Oops! Inga inga nät kvar.");
+                messages.add("Oops! " + playerName + " har inga inga nät kvar.");
                 gameOver = true;
 
             } else if (rand.nextInt(4) != 0) { // 75 %
@@ -201,11 +214,11 @@ public class Logic extends JPanel {
                 creatureRoom = links[creatureRoom][rand.nextInt(3)];
 
                 if (creatureRoom == currRoom) {
-                    messages.add("Du väckte Bysen och han är inte glad!");
+                    messages.add(playerName + " väckte Bysen och han är inte glad!");
                     gameOver = true;
 
                 } else {
-                    messages.add("Du råkade se Bysen och han bara försvann");
+                    messages.add(playerName + " råkade se Bysen och han bara försvann");
                     creatures[creatureRoom].add(Creatures.Bysen);
                 }
             }
