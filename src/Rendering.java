@@ -6,18 +6,26 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class Rendering extends JPanel {
+    public Rendering(){
+        setPreferredSize(new Dimension(721, 687));
+        setBackground(Color.white);
+        setForeground(Color.lightGray);
+        setFont(new Font("SansSerif", Font.PLAIN, 18));
+        setFocusable(true);
+        new Logic();
+    }
     /**
      * Ritar spelaren
      * @param g Graphics2D objektet att rita med
      */
     void drawPlayer(Graphics2D g) {
-        int x = Bysen.rooms[Bysen.currRoom][0] + (Bysen.roomSize - Bysen.playerSize) / 2;
-        int y = Bysen.rooms[Bysen.currRoom][1] + (Bysen.roomSize - Bysen.playerSize) - 2;
+        int x = Logic.rooms[Logic.currRoom][0] + (Logic.roomSize - Logic.playerSize) / 2;
+        int y = Logic.rooms[Logic.currRoom][1] + (Logic.roomSize - Logic.playerSize) - 2;
 
         Path2D player = new Path2D.Double();
         player.moveTo(x, y);
-        player.lineTo(x + Bysen.playerSize, y);
-        player.lineTo(x + Bysen.playerSize / 2, y - Bysen.playerSize);
+        player.lineTo(x + Logic.playerSize, y);
+        player.lineTo(x + Logic.playerSize / 2, y - Logic.playerSize);
         player.closePath();
 
         g.setColor(Color.white);
@@ -53,29 +61,29 @@ public class Rendering extends JPanel {
         g.setColor(Color.darkGray);
         g.setStroke(new BasicStroke(2));
 
-        for (int i = 0; i < Bysen.links.length; i++) {
-            for (int link : Bysen.links[i]) {
-                int x1 = Bysen.rooms[i][0] + Bysen.roomSize / 2;
-                int y1 = Bysen.rooms[i][1] + Bysen.roomSize / 2;
-                int x2 = Bysen.rooms[link][0] + Bysen.roomSize / 2;
-                int y2 = Bysen.rooms[link][1] + Bysen.roomSize / 2;
+        for (int i = 0; i < Logic.links.length; i++) {
+            for (int link : Logic.links[i]) {
+                int x1 = Logic.rooms[i][0] + Logic.roomSize / 2;
+                int y1 = Logic.rooms[i][1] + Logic.roomSize / 2;
+                int x2 = Logic.rooms[link][0] + Logic.roomSize / 2;
+                int y2 = Logic.rooms[link][1] + Logic.roomSize / 2;
                 g.drawLine(x1, y1, x2, y2);
             }
         }
 
         g.setColor(Color.orange);
-        for (int[] r : Bysen.rooms)
-            g.fillOval(r[0], r[1], Bysen.roomSize, Bysen.roomSize);
+        for (int[] r : Logic.rooms)
+            g.fillOval(r[0], r[1], Logic.roomSize, Logic.roomSize);
 
-        if (!Bysen.gameOver) {
+        if (!Logic.gameOver) {
             g.setColor(Color.magenta);
-            for (int link : Bysen.links[Bysen.currRoom])
-                g.fillOval(Bysen.rooms[link][0], Bysen.rooms[link][1], Bysen.roomSize, Bysen.roomSize);
+            for (int link : Logic.links[Logic.currRoom])
+                g.fillOval(Logic.rooms[link][0], Logic.rooms[link][1], Logic.roomSize, Logic.roomSize);
         }
 
         g.setColor(Color.darkGray);
-        for (int[] r : Bysen.rooms)
-            g.drawOval(r[0], r[1], Bysen.roomSize, Bysen.roomSize);
+        for (int[] r : Logic.rooms)
+            g.drawOval(r[0], r[1], Logic.roomSize, Logic.roomSize);
     }
 
     /***
@@ -83,25 +91,25 @@ public class Rendering extends JPanel {
      * @param g
      */
     void drawMessage(Graphics2D g) {
-        if (!Bysen.gameOver)
-            g.drawString("pilar  " + Bysen.numArrows, 610, 30);
+        if (!Logic.gameOver)
+            g.drawString("pilar  " + Logic.numArrows, 610, 30);
 
-        if (Bysen.messages != null) {
+        if (Logic.messages != null) {
             g.setColor(Color.black);
 
             // ta bort lika meddelanden
-            Bysen.messages = Bysen.messages.stream().distinct().collect(toList());
+            Logic.messages = Logic.messages.stream().distinct().collect(toList());
 
             // slå ihop max tre
-            String msg = Bysen.messages.stream().limit(3).collect(joining(" & "));
+            String msg = Logic.messages.stream().limit(3).collect(joining(" & "));
             g.drawString(msg, 20, getHeight() - 40);
 
             // om det finns mer, skriv ut nedanför
-            if (Bysen.messages.size() > 3) {
-                g.drawString("& " + Bysen.messages.get(3), 20, getHeight() - 17);
+            if (Logic.messages.size() > 3) {
+                g.drawString("& " + Logic.messages.get(3), 20, getHeight() - 17);
             }
 
-            Bysen.messages.clear();
+            Logic.messages.clear();
         }
     }
 
@@ -117,7 +125,7 @@ public class Rendering extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         drawRooms(g);
-        if (Bysen.gameOver) {
+        if (Logic.gameOver) {
             drawStartScreen(g);
         } else {
             drawPlayer(g);
