@@ -63,7 +63,14 @@ public class Rendering extends JPanel {
         centerText(g, "Var försiktig väsen kan befinna sig i samma rum som du", 345);
         centerText(g, "Klicka för att starta", 380);
     }
-    // beräkna fönstrets bredd för att få centrerad text
+
+
+    /**
+     * beräkna fönstrets bredd för att få centrerad text
+     * @param g Graphics2D objektet att rita med
+     * @param text texten som ska ritas
+     * @param y y kordinaten att rita texten på
+     */
     void centerText(Graphics2D g, String text , int y){
         FontMetrics fm = g.getFontMetrics();
         int textWidth = fm.stringWidth(text);

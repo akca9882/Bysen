@@ -10,7 +10,8 @@ public class Logic extends JPanel {
     enum Creatures {
         Bysen("Du hör ett mummel"),
         Troll("Du ser en trollring"),
-        Vittra("Du känner ett kallt isande drag");
+        Vittra("Du känner ett kallt isande drag"),
+        Vette("Du hör ett irriterat mummel");
 
         //Varning som visas när varelsen är i närheten
         Creatures(String warning) {
@@ -28,6 +29,7 @@ public class Logic extends JPanel {
     public static int currRoom;
     public static int numArrows;
     int creatureRoom;
+    boolean isIrritated=false; // om Vätten är irriterad
     public static List<String> messages; //lista med varningar att visa
     Set<Creatures>[] creatures; //Ett set med varelser
 
@@ -89,7 +91,7 @@ public class Logic extends JPanel {
             creatures[i] = EnumSet.noneOf(Creatures.class);
 
         // varelser kan dela rum (om de inte är identiska)
-        int[] ordinals = {0, 1, 1, 1, 2, 2};
+        int[] ordinals = {0, 1, 1, 1, 2, 2, 3};
         Creatures[] values = Creatures.values();
         for (int ord : ordinals) {
             int room;
@@ -156,12 +158,25 @@ public class Logic extends JPanel {
             // omvärdera
             situation();
 
+        } else if (set.contains(Creatures.Vette)) {
+            messages.add("Vätten sände en sjukdom på dig");
+            gameOver = true;
+
         } else {
 
             // se sig om
             for (int link : links[currRoom]) {
-                for (Creatures creature : creatures[link])
+                for (Creatures creature : creatures[link]) {
                     messages.add(creature.warning);
+                    if(creature == Creatures.Vette){
+                        if(isIrritated) {
+                            messages.clear();
+                            messages.add("Vätten sände en sjukdom på dig");
+                            gameOver = true;
+                        }
+                        else isIrritated=true;
+                    }
+                }
             }
         }
     }
