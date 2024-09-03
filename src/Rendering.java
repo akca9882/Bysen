@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
-
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static javax.swing.SwingUtilities.isLeftMouseButton;
@@ -57,12 +56,19 @@ public class Rendering extends JPanel {
 
         g.setColor(Color.darkGray);
         g.setFont(new Font("SansSerif", Font.BOLD, 48));
-        g.drawString("Fånga Bysen!", 160, 240);
+        centerText(g,"Fånga Bysen!", 240);
 
         g.setFont(getFont());
-        g.drawString("Vänsterklicka för att flytta, Högerklicka för att skjuta", 210, 310);
-        g.drawString("Var försiktig väsen kan befinna sig i samma rum som du", 175, 345);
-        g.drawString("Klicka för att starta", 310, 380);
+        centerText(g, "Vänsterklicka för att flytta, Högerklicka för att skjuta", 310);
+        centerText(g, "Var försiktig väsen kan befinna sig i samma rum som du", 345);
+        centerText(g, "Klicka för att starta", 380);
+    }
+    // beräkna fönstrets bredd för att få centrerad text
+    void centerText(Graphics2D g, String text , int y){
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int panelWidth = getWidth();
+        g.drawString(text ,(panelWidth - textWidth) / 2 , y);
     }
 
     /***
