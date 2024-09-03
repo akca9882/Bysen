@@ -255,6 +255,10 @@ public class Bysen extends JPanel {
         g.drawString("Klicka för att starta", 310, 380);
     }
 
+    /***
+     * ritar rum samt sträcken mellan dem
+     * @param g Graphics2D objektet att rita med
+     */
     void drawRooms(Graphics2D g) {
         g.setColor(Color.darkGray);
         g.setStroke(new BasicStroke(2));
@@ -284,6 +288,10 @@ public class Bysen extends JPanel {
             g.drawOval(r[0], r[1], roomSize, roomSize);
     }
 
+    /***
+     * ritar medelanden samt antalt pilar
+     * @param g
+     */
     void drawMessage(Graphics2D g) {
         if (!gameOver)
             g.drawString("pilar  " + numArrows, 610, 30);
@@ -307,6 +315,10 @@ public class Bysen extends JPanel {
         }
     }
 
+    /***
+     * sätter renderHints och kallar på dem olika ritnings metoderna
+     * @param gg the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(Graphics gg) {
         super.paintComponent(gg);
@@ -323,6 +335,11 @@ public class Bysen extends JPanel {
         drawMessage(g);
     }
 
+    /***
+     * main metoden
+     * skapar fönstret och ställer in det parallel
+     * @param args
+     */
     public static void main(String[] args) {
         invokeLater(() -> {
             JFrame f = new JFrame();
@@ -335,12 +352,12 @@ public class Bysen extends JPanel {
             f.setVisible(true);
         });
     }
-
+    //rummens koordinater
     int[][] rooms = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
     {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
     {435, 447}, {334, 480}, {232, 447}, {169, 361}, {254, 336}, {285, 238},
     {387, 238}, {418, 336}, {334, 393}};
-
+    //anslutningarna mellan dem olika rummen
     int[][] links = {{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
     {4, 6, 14}, {7, 16, 5}, {6, 0, 8}, {7, 17, 9}, {8, 1, 10}, {9, 18, 11},
     {10, 2, 12}, {13, 19, 11}, {14, 3, 12}, {5, 15, 13}, {14, 16, 19},
