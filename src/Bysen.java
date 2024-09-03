@@ -24,12 +24,14 @@ public class Bysen extends JPanel {
 
     static final Random rand = new Random();
 
-    final int roomSize = 45;
-    final int playerSize = 16;
+    public static final int roomSize = 45;
+    public static final int playerSize = 16;
 
-    boolean gameOver = true;
-    int currRoom, numArrows, creatureRoom;
-    List<String> messages; //lista med varningar att visa
+    public static boolean gameOver = true;
+    public static int currRoom;
+    public static int numArrows;
+    int creatureRoom;
+    public static List<String> messages; //lista med varningar att visa
     Set<Creatures>[] creatures; //Ett set med varelser
 
     /***
@@ -216,124 +218,7 @@ public class Bysen extends JPanel {
         }
     }
 
-    /**
-     * Ritar spelaren
-     * @param g Graphics2D objektet att rita med
-     */
-    void drawPlayer(Graphics2D g) {
-        int x = rooms[currRoom][0] + (roomSize - playerSize) / 2;
-        int y = rooms[currRoom][1] + (roomSize - playerSize) - 2;
 
-        Path2D player = new Path2D.Double();
-        player.moveTo(x, y);
-        player.lineTo(x + playerSize, y);
-        player.lineTo(x + playerSize / 2, y - playerSize);
-        player.closePath();
-
-        g.setColor(Color.white);
-        g.fill(player);
-        g.setStroke(new BasicStroke(1));
-        g.setColor(Color.black);
-        g.draw(player);
-    }
-
-    /***
-     * ritar startskärmermen
-     * @param g Graphics2D objektet att rita med
-     */
-    void drawStartScreen(Graphics2D g) {
-        g.setColor(new Color(0xDDFFFFFF, true));
-        g.fillRect(0, 0, getWidth(), getHeight() - 60);
-
-        g.setColor(Color.darkGray);
-        g.setFont(new Font("SansSerif", Font.BOLD, 48));
-        g.drawString("Fånga Bysen!", 160, 240);
-
-        g.setFont(getFont());
-        g.drawString("Vänsterklicka för att flytta, Högerklicka för att skjuta", 210, 310);
-        g.drawString("Var försiktig väsen kan befinna sig i samma rum som du", 175, 345);
-        g.drawString("Klicka för att starta", 310, 380);
-    }
-
-    /***
-     * ritar rum samt sträcken mellan dem
-     * @param g Graphics2D objektet att rita med
-     */
-    void drawRooms(Graphics2D g) {
-        g.setColor(Color.darkGray);
-        g.setStroke(new BasicStroke(2));
-
-        for (int i = 0; i < links.length; i++) {
-            for (int link : links[i]) {
-                int x1 = rooms[i][0] + roomSize / 2;
-                int y1 = rooms[i][1] + roomSize / 2;
-                int x2 = rooms[link][0] + roomSize / 2;
-                int y2 = rooms[link][1] + roomSize / 2;
-                g.drawLine(x1, y1, x2, y2);
-            }
-        }
-
-        g.setColor(Color.orange);
-        for (int[] r : rooms)
-            g.fillOval(r[0], r[1], roomSize, roomSize);
-
-        if (!gameOver) {
-            g.setColor(Color.magenta);
-            for (int link : links[currRoom])
-                g.fillOval(rooms[link][0], rooms[link][1], roomSize, roomSize);
-        }
-
-        g.setColor(Color.darkGray);
-        for (int[] r : rooms)
-            g.drawOval(r[0], r[1], roomSize, roomSize);
-    }
-
-    /***
-     * ritar medelanden samt antalt pilar
-     * @param g
-     */
-    void drawMessage(Graphics2D g) {
-        if (!gameOver)
-            g.drawString("pilar  " + numArrows, 610, 30);
-
-        if (messages != null) {
-            g.setColor(Color.black);
-
-            // ta bort lika meddelanden
-            messages = messages.stream().distinct().collect(toList());
-
-            // slå ihop max tre
-            String msg = messages.stream().limit(3).collect(joining(" & "));
-            g.drawString(msg, 20, getHeight() - 40);
-
-            // om det finns mer, skriv ut nedanför
-            if (messages.size() > 3) {
-                g.drawString("& " + messages.get(3), 20, getHeight() - 17);
-            }
-
-            messages.clear();
-        }
-    }
-
-    /***
-     * sätter renderHints och kallar på dem olika ritnings metoderna
-     * @param gg the <code>Graphics</code> object to protect
-     */
-    @Override
-    public void paintComponent(Graphics gg) {
-        super.paintComponent(gg);
-        Graphics2D g = (Graphics2D) gg;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        drawRooms(g);
-        if (gameOver) {
-            drawStartScreen(g);
-        } else {
-            drawPlayer(g);
-        }
-        drawMessage(g);
-    }
 
     /***
      * main metoden
@@ -353,12 +238,12 @@ public class Bysen extends JPanel {
         });
     }
     //rummens koordinater
-    int[][] rooms = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
+    public static final int[][] rooms = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
     {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
     {435, 447}, {334, 480}, {232, 447}, {169, 361}, {254, 336}, {285, 238},
     {387, 238}, {418, 336}, {334, 393}};
     //anslutningarna mellan dem olika rummen
-    int[][] links = {{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
+    public static final int[][] links = {{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
     {4, 6, 14}, {7, 16, 5}, {6, 0, 8}, {7, 17, 9}, {8, 1, 10}, {9, 18, 11},
     {10, 2, 12}, {13, 19, 11}, {14, 3, 12}, {5, 15, 13}, {14, 16, 19},
     {6, 17, 15}, {16, 8, 18}, {19, 10, 17}, {15, 12, 18}};
