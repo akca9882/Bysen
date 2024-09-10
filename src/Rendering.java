@@ -5,8 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static javax.swing.SwingUtilities.isLeftMouseButton;
-import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class Rendering extends JPanel {
     Logic logic = new Logic();
