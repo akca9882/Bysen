@@ -116,7 +116,7 @@ public class Logic extends JPanel {
 
             if (ord == 0)
                 creatureRoom = room;
-            System.out.println(room);
+
             creatures[room].add(values[ord]);
         }
 

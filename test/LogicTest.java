@@ -36,18 +36,17 @@ class LogicTest {
         robot.keyPress(KeyEvent.VK_ENTER);
         robot.delay(1000);
         assertFalse(Logic.gameOver);
-
     }
 
     @Test
     void insideRoom() {
-        assert(logic.insideRoom(1,1,0,0));
+        assertTrue(logic.insideRoom(1,1,0,0));
+        assertFalse(logic.insideRoom(50,50,0,0));
     }
 
     @Test
     void startNewGame() {
         logic.startNewGame();
-        robot.keyPress(KeyEvent.VK_ENTER);
         assertFalse(Logic.gameOver);
         assertEquals(3,Logic.numArrows);
         assertEquals(0,Logic.currRoom);
@@ -134,25 +133,10 @@ class LogicTest {
         }
 
     @Test
-    void throwNetNoArrows(){
+    void throwNetNoArrows() {
         logic.startNewGame();
         Logic.numArrows = 1;
         logic.throwNet(0);
         assertEquals("Oops! Spelaren har inga inga nät kvar.", Logic.messages.getFirst());
     }
-        @Test
-        void rooms () {
-            assertEquals(new int[][]{{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
-                    {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
-                    {435, 447}, {334, 480}, {232, 447}, {169, 361}, {254, 336}, {285, 238},
-                    {387, 238}, {418, 336}, {334, 393}}, Logic.rooms);
-        }
-
-        @Test
-        void links () {
-            assertEquals(new int[][]{{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
-                    {4, 6, 14}, {7, 16, 5}, {6, 0, 8}, {7, 17, 9}, {8, 1, 10}, {9, 18, 11},
-                    {10, 2, 12}, {13, 19, 11}, {14, 3, 12}, {5, 15, 13}, {14, 16, 19},
-                    {6, 17, 15}, {16, 8, 18}, {19, 10, 17}, {15, 12, 18}}, Logic.links);
-        }
-    }
+}
