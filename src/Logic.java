@@ -72,7 +72,6 @@ public class Logic extends JPanel {
                 throwNet(selectedRoom);
             }
         }
-
     }
 
     /***
@@ -83,7 +82,7 @@ public class Logic extends JPanel {
      * @param cy rum position y
      * @return om musen är över rummet
      */
-    boolean insideRoom(int ex, int ey, int cx, int cy) {
+    public boolean insideRoom(int ex, int ey, int cx, int cy) {
         return ((ex > cx && ex < cx + roomSize)
                 && (ey > cy && ey < cy + roomSize));
     }
@@ -117,7 +116,7 @@ public class Logic extends JPanel {
 
             if (ord == 0)
                 creatureRoom = room;
-
+            System.out.println(room);
             creatures[room].add(values[ord]);
         }
 
