@@ -95,22 +95,64 @@ class LogicTest {
     }
 
     @Test
-    void throwNet() {
+    void throwNetCatch() {
+        logic.startNewGame();
+        Logic.currRoom=7;
+        logic.throwNet(8);
+        assertEquals("Spelaren vinner! Spelaren har fångat Bysen!", Logic.messages.getFirst());
+
     }
 
     @Test
-    void rooms(){
-        assertEquals(new int[][] {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
-                {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
-                {435, 447}, {334, 480}, {232, 447}, {169, 361}, {254, 336}, {285, 238},
-                {387, 238}, {418, 336}, {334, 393}}, Logic.rooms);
+    void throwNetMiss(){
+        logic.startNewGame();
+        Logic.currRoom=7;
+        logic.throwNet(6);
+        assertEquals("Spelaren råkade se Bysen och han bara försvann", Logic.messages.getFirst());
     }
 
     @Test
-    void links(){
-        assertEquals(new int[][] {{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
-                {4, 6, 14}, {7, 16, 5}, {6, 0, 8}, {7, 17, 9}, {8, 1, 10}, {9, 18, 11},
-                {10, 2, 12}, {13, 19, 11}, {14, 3, 12}, {5, 15, 13}, {14, 16, 19},
-                {6, 17, 15}, {16, 8, 18}, {19, 10, 17}, {15, 12, 18}}, Logic.links);
+    void throwNetMovedTo() {
+        logic.startNewGame();
+        Logic.currRoom = 9;
+        logic.throwNet(10);
+        assertEquals("Spelaren väckte Bysen och han är inte glad!", Logic.messages.getFirst());
     }
-}
+
+    @Test
+    void throwNetNoMessage() {
+        logic.startNewGame();
+        Logic.numArrows = -1;
+
+        for (int i = 0; i < 6; i++) {
+            logic.throwNet(15);
+        }
+        Logic.messages.clear();
+        logic.throwNet(15);
+
+        assertTrue(Logic.messages.isEmpty());
+        }
+
+    @Test
+    void throwNetNoArrows(){
+        logic.startNewGame();
+        Logic.numArrows = 1;
+        logic.throwNet(0);
+        assertEquals("Oops! Spelaren har inga inga nät kvar.", Logic.messages.getFirst());
+    }
+        @Test
+        void rooms () {
+            assertEquals(new int[][]{{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
+                    {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
+                    {435, 447}, {334, 480}, {232, 447}, {169, 361}, {254, 336}, {285, 238},
+                    {387, 238}, {418, 336}, {334, 393}}, Logic.rooms);
+        }
+
+        @Test
+        void links () {
+            assertEquals(new int[][]{{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
+                    {4, 6, 14}, {7, 16, 5}, {6, 0, 8}, {7, 17, 9}, {8, 1, 10}, {9, 18, 11},
+                    {10, 2, 12}, {13, 19, 11}, {14, 3, 12}, {5, 15, 13}, {14, 16, 19},
+                    {6, 17, 15}, {16, 8, 18}, {19, 10, 17}, {15, 12, 18}}, Logic.links);
+        }
+    }
