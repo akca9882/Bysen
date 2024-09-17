@@ -20,6 +20,6 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
-        distribution: 'temurin'
+        distribution: 'oracle'
     - name: java
-      run: java scr/Bysen.java
+      run: java Bysen.java
