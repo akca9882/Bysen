@@ -22,4 +22,4 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
     - name: java
-      run: java Bysen.java
+      run: java scr/Bysen.java
