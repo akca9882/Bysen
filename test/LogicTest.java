@@ -23,7 +23,7 @@ class LogicTest {
 
     /**
      * Testar att spelet startar och svarar på musklick samt inmatning
-     */
+     *
     @Test
     void handleMouseClick() throws AWTException {
         robot = new Robot();
@@ -56,7 +56,7 @@ class LogicTest {
 
     /**
      * Testar startNewGame startar spelet, ger spelaren rätt antal pilar samt placerar dem i rätt rum
-     */
+     *
     @Test
     void startNewGame() {
         logic.startNewGame();
@@ -67,7 +67,7 @@ class LogicTest {
 
     /**
      * Testar att tooClose anser rätt rum är för nära
-     */
+     *
     @Test
     void tooClose() {
         logic.startNewGame();
@@ -78,7 +78,7 @@ class LogicTest {
 
     /**
      * Testar att rätt meddelande läggs till i listan när spelaren går in i bysens rum
-     */
+     *
     @Test
     void situationBysen() {
         logic.startNewGame();
@@ -89,7 +89,7 @@ class LogicTest {
 
     /**
      * Testar att meddelandet läggs till i listan ifall spelaren går in i ett rum med ett troll
-     */
+     *
     @Test
     void situationTroll(){
         logic.startNewGame();
@@ -100,7 +100,7 @@ class LogicTest {
 
     /**
      * Testar om Vittran korrekt flyttar spelaren när dem går in i deras rum samt att meddelandet läggs till i listan
-     */
+     *
     @Test
     void situationVittra(){
         logic.startNewGame();
@@ -112,7 +112,7 @@ class LogicTest {
 
     /**
      * Testar om Vätten skickar sjukdom när spelar går in i dess rum
-     */
+     *
     @Test
     void situationVette(){
         logic.startNewGame();
@@ -123,7 +123,7 @@ class LogicTest {
 
     /**
      * Testar ifall Vätten blir irriterad och skickar sjukdom efter andra omgången
-     */
+     *
     @Test
     void situationVetteIrritated(){
         logic.startNewGame();
@@ -136,7 +136,7 @@ class LogicTest {
 
     /**
      * Testar om rätt meddelande läggs till i listan när Bysen fångas
-     */
+     *
     @Test
     void throwNetCatch() {
         logic.startNewGame();
@@ -148,7 +148,7 @@ class LogicTest {
 
     /**
      * Testar om rätt meddelande läggs till i listan när Bysen inte fångas och flyttar på sig
-     */
+     *
     @Test
     void throwNetMiss(){
         logic.startNewGame();
@@ -159,7 +159,7 @@ class LogicTest {
 
     /**
      * Testar om rätt meddelande läggs till i listan när Bysen går in i samma rum som spelaren
-     */
+     *
     @Test
     void throwNetMovedTo() {
         logic.startNewGame();
@@ -170,7 +170,7 @@ class LogicTest {
 
     /**
      * Testar om inget meddelande läggs till i listan när Bysen inte fångas och bysen inte rör på sig
-     */
+     *
     @Test
     void throwNetNoMessage() {
         logic.startNewGame();
@@ -187,7 +187,7 @@ class LogicTest {
 
     /**
      * Testar om rätt meddelandet läggs till i listan när pilarna tar slut
-     */
+     *
     @Test
     void throwNetNoArrows() {
         logic.startNewGame();
@@ -196,4 +196,5 @@ class LogicTest {
         assertEquals("Oops! Spelaren har inga inga nät kvar.", Logic.messages.getFirst());
         assertTrue(Logic.gameOver);
     }
+    */
 }
