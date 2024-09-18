@@ -26,6 +26,8 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
+        distribution: 'oracle'
+        architecture: x64
 
     - name: Compile Java code
       run: javac src/*.java
